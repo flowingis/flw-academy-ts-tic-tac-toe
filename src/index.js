@@ -1,1 +1,4 @@
-console.log("Hello from Flowing Academy");
+import game from "./game.js";
+
+const gameInstance = game();
+gameInstance.start();

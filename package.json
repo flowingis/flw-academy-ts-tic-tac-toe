@@ -5,10 +5,15 @@
   "author": "Luca Del Puppo <luca@delpuppo.net>",
   "license": "MIT",
   "scripts": {
-    "build": "cp -R src dist",
+    "build": "rimraf dist && cp -R src dist",
     "start": "node dist/index.js"
   },
+  "type": "module",
   "devDependencies": {
-    "cp-cli": "^2.0.0"
+    "cp-cli": "^2.0.0",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1"
   }
 }
