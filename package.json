@@ -1,0 +1,14 @@
+{
+  "name": "flw-academy-ts-tic-tac-toe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Luca Del Puppo <luca@delpuppo.net>",
+  "license": "MIT",
+  "scripts": {
+    "build": "cp -R src dist",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "cp-cli": "^2.0.0"
+  }
+}
