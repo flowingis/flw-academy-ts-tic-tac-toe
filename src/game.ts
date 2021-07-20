@@ -35,8 +35,8 @@ async function next(this: Game): Promise<void> {
 type Game = {
   player: string;
   winner?: string;
-  start: () => void;
-  next: () => void;
+  start: () => Promise<void>;
+  next: () => Promise<void>;
 };
 
 const game = (): Game => {

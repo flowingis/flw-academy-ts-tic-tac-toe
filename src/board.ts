@@ -30,7 +30,7 @@ function render(this: Board): void {
   console.log();
 }
 
-const validatePosition = (position: string): Position => {
+let validatePosition = (position: string): Position => {
   const pos = position.trim();
   const [colInput, rowInput] = pos.split("");
   let col = ["A", "B", "C"].indexOf(colInput.toUpperCase()),
@@ -53,7 +53,7 @@ function makeMove(this: Board, player: string, position: string): void {
   this.squares[pos] = squareFactory(player);
 }
 
-function getWinner(this: Board): string {
+function getWinner(this: Board): string | undefined {
   for (const [idx1, idx2, idx3] of winCombinations) {
     const square1 = this.squares[idx1],
       square2 = this.squares[idx2],
@@ -69,7 +69,7 @@ function getWinner(this: Board): string {
 
 type Board = {
   squares: Square[];
-  getWinner(): string | null;
+  getWinner(): string | undefined;
   makeMove(player: string, position: string): void;
   render: () => void;
 };
