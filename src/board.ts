@@ -30,7 +30,7 @@ function render(): void {
   console.log();
 }
 
-function validatePosition(position: string): Position {
+const validatePosition = (position: string): Position => {
   const pos = position.trim();
   const [colInput, rowInput] = pos.split("");
   let col = ["A", "B", "C"].indexOf(colInput.toUpperCase()),
@@ -41,7 +41,7 @@ function validatePosition(position: string): Position {
   throw new Error(
     "Invalid position, possible value A1,A2,A3,B1,B2,B3,C1,C2,C3"
   );
-}
+};
 
 function makeMove(player: string, position: string): void {
   if (this.getWinner()) throw new Error("Game is over");
