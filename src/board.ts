@@ -1,5 +1,5 @@
 import { Player } from "./player";
-import * as sqr from "./square";
+import { squareFactory, Square } from "./square";
 
 type Position = { col: number; row: number };
 
@@ -14,13 +14,13 @@ export class Board {
     [0, 4, 8],
     [3, 4, 6],
   ];
-  private history: ReadonlyArray<ReadonlyArray<sqr.Square>>;
+  private history: ReadonlyArray<ReadonlyArray<Square>>;
 
   constructor() {
-    this.history = [Array(9).fill(sqr.squareFactory(undefined))];
+    this.history = [Array(9).fill(squareFactory(undefined))];
   }
 
-  get currentSquares(): ReadonlyArray<sqr.Square> {
+  get currentSquares(): ReadonlyArray<Square> {
     return this.history[this.history.length - 1];
   }
 
@@ -31,7 +31,7 @@ export class Board {
       let args = [r + 1, " "];
       for (let c = 0; c < 3; c++) {
         const index = r * 3 + c;
-        args.push(sqr.render(this.currentSquares[index]));
+        args.push(this.currentSquares[index].render());
         if (c !== 2) args.push("|");
       }
       console.log(...args);
@@ -59,12 +59,12 @@ export class Board {
     const { col, row } = this.validatePosition(position);
     const pos = row * 3 + col;
     const square = this.currentSquares[pos];
-    if (sqr.hasValue(square)) throw new Error("Position already occupied");
+    if (square.hasValue()) throw new Error("Position already occupied");
 
     this.history = this.history.concat([
       [
         ...this.currentSquares.slice(0, pos),
-        sqr.squareFactory(player),
+        squareFactory(player),
         ...this.currentSquares.slice(pos + 1),
       ],
     ]);
@@ -74,14 +74,10 @@ export class Board {
     for (const [idx1, idx2, idx3] of this.winCombinations) {
       const square1 = this.currentSquares[idx1];
       if (
-        sqr.hasValue(square1) &&
-        sqr.equals(
-          square1,
-          this.currentSquares[idx2],
-          this.currentSquares[idx3]
-        )
+        square1.hasValue() &&
+        square1.equals(this.currentSquares[idx2], this.currentSquares[idx3])
       )
-        return sqr.getValue(square1);
+        return square1.getValue();
     }
   }
 }

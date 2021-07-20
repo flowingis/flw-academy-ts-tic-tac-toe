@@ -1,26 +1,46 @@
 import { Player } from "./player";
 
+type BaseSquare = {
+  render: () => Player | " ";
+  getValue: () => Player | undefined;
+  hasValue: () => boolean;
+  equals: (...squares: Square[]) => boolean;
+};
+
 type CrossSquare = Readonly<{
   kind: "cross";
-}>;
+}> &
+  BaseSquare;
 
 type CircleSquare = Readonly<{
   kind: "circle";
-}>;
+}> &
+  BaseSquare;
 
 type EmptySquare = Readonly<{
   kind: "empty";
-}>;
+}> &
+  BaseSquare;
 
 export type Square = CrossSquare | CircleSquare | EmptySquare;
 
+const createBaseSquare = (): BaseSquare => ({
+  render,
+  getValue,
+  hasValue,
+  equals,
+});
+
 const createCrossSquare = (): CrossSquare => ({
+  ...createBaseSquare(),
   kind: "cross",
 });
 const createCircleSquare = (): CircleSquare => ({
+  ...createBaseSquare(),
   kind: "circle",
 });
 const createEmptySquare = (): EmptySquare => ({
+  ...createBaseSquare(),
   kind: "empty",
 });
 
@@ -35,8 +55,8 @@ export function squareFactory(type: Player | undefined): Square {
   }
 }
 
-export function render(square: Square): Player | " " {
-  switch (square.kind) {
+function render(this: Square): Player | " " {
+  switch (this.kind) {
     case "cross":
       return "X";
     case "circle":
@@ -46,8 +66,8 @@ export function render(square: Square): Player | " " {
   }
 }
 
-export function getValue(square: Square): Player | undefined {
-  switch (square.kind) {
+function getValue(this: Square): Player | undefined {
+  switch (this.kind) {
     case "cross":
       return "X";
     case "circle":
@@ -57,8 +77,8 @@ export function getValue(square: Square): Player | undefined {
   }
 }
 
-export function hasValue(square: Square): boolean {
-  switch (square.kind) {
+function hasValue(this: Square): boolean {
+  switch (this.kind) {
     case "cross":
     case "circle":
       return true;
@@ -67,6 +87,6 @@ export function hasValue(square: Square): boolean {
   }
 }
 
-export function equals(...squares: Square[]): boolean {
-  return squares.every(v => getValue(v) === getValue(squares[0]));
+function equals(this: Square, ...squares: Square[]): boolean {
+  return squares.every(v => v.getValue() === this.getValue());
 }
