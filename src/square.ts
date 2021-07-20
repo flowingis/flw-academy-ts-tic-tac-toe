@@ -1,48 +1,36 @@
 import { Player } from "./player";
 
-type BaseSquare = {
+type SquareKind = "cross" | "circle" | "empty";
+
+type BaseSquare<Kind extends SquareKind> = {
+  kind: Kind;
   render: () => Player | " ";
   getValue: () => Player | undefined;
   hasValue: () => boolean;
   equals: (...squares: Square[]) => boolean;
 };
 
-type CrossSquare = Readonly<{
-  kind: "cross";
-}> &
-  BaseSquare;
+type CrossSquare = BaseSquare<"cross">;
 
-type CircleSquare = Readonly<{
-  kind: "circle";
-}> &
-  BaseSquare;
+type CircleSquare = BaseSquare<"circle">;
 
-type EmptySquare = Readonly<{
-  kind: "empty";
-}> &
-  BaseSquare;
+type EmptySquare = BaseSquare<"empty">;
 
 export type Square = CrossSquare | CircleSquare | EmptySquare;
 
-const createBaseSquare = (): BaseSquare => ({
+const createBaseSquare = <Kind extends SquareKind>(
+  kind: Kind
+): BaseSquare<Kind> => ({
+  kind,
   render,
   getValue,
   hasValue,
   equals,
 });
 
-const createCrossSquare = (): CrossSquare => ({
-  ...createBaseSquare(),
-  kind: "cross",
-});
-const createCircleSquare = (): CircleSquare => ({
-  ...createBaseSquare(),
-  kind: "circle",
-});
-const createEmptySquare = (): EmptySquare => ({
-  ...createBaseSquare(),
-  kind: "empty",
-});
+const createCrossSquare = (): CrossSquare => createBaseSquare("cross");
+const createCircleSquare = (): CircleSquare => createBaseSquare("circle");
+const createEmptySquare = (): EmptySquare => createBaseSquare("empty");
 
 export function squareFactory(type: Player | undefined): Square {
   switch (type) {
