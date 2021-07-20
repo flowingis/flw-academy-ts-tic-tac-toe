@@ -1,4 +1,4 @@
-class Square {
+export class Square {
   private value: string;
 
   constructor(value: string) {

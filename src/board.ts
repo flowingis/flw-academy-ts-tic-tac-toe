@@ -1,6 +1,6 @@
-import { squareFactory } from "./square";
+import { Square, squareFactory } from "./square";
 
-const winCombinations = [
+const winCombinations: [number, number, number][] = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],
@@ -66,8 +66,9 @@ function getWinner() {
 }
 
 export const board = () => {
+  const squares: Square[] = Array(9).fill(squareFactory());
   return {
-    squares: Array(9).fill(squareFactory()),
+    squares,
     getWinner,
     makeMove,
     render,
