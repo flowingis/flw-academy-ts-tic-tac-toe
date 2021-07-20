@@ -1,72 +1,72 @@
 import { Player } from "./player";
 
-export interface Square {
-  readonly value: Player | undefined;
-}
+type CrossSquare = Readonly<{
+  kind: "cross";
+}>;
 
-export interface Square {
-  render(): Player | " ";
-  hasValue(): boolean;
-  isEquals(other: unknown): boolean;
-}
+type CircleSquare = Readonly<{
+  kind: "circle";
+}>;
 
-abstract class BaseSquare implements Square {
-  constructor(public readonly value: Player | undefined) {}
+type EmptySquare = Readonly<{
+  kind: "empty";
+}>;
 
-  render() {
-    return this.value || " ";
-  }
+export type Square = CrossSquare | CircleSquare | EmptySquare;
 
-  abstract hasValue(): boolean;
+const createCrossSquare = (): CrossSquare => ({
+  kind: "cross",
+});
+const createCircleSquare = (): CircleSquare => ({
+  kind: "circle",
+});
+const createEmptySquare = (): EmptySquare => ({
+  kind: "empty",
+});
 
-  isEquals(square: unknown): boolean {
-    return square instanceof BaseSquare && this.value === square.value;
-  }
-
-  // any stop typescript type check
-  // unknown is better then any so you must check the type of your object
-  // isEquals(square: any): boolean {
-  //   return this.value === square.value;
-  // }
-}
-
-class CrossSquare extends BaseSquare {
-  constructor() {
-    super("X");
-  }
-
-  hasValue(): boolean {
-    return true;
-  }
-}
-
-class CircleSquare extends BaseSquare {
-  constructor() {
-    super("O");
-  }
-
-  hasValue(): boolean {
-    return true;
-  }
-}
-
-class EmptySquare extends BaseSquare {
-  constructor() {
-    super(undefined);
-  }
-
-  hasValue(): boolean {
-    return false;
-  }
-}
-
-export function squareFactory(type: string | undefined): Square {
+export function squareFactory(type: Player | undefined): Square {
   switch (type) {
     case "X":
-      return new CrossSquare();
+      return createCrossSquare();
     case "O":
-      return new CircleSquare();
+      return createCircleSquare();
     default:
-      return new EmptySquare();
+      return createEmptySquare();
   }
+}
+
+export function render(square: Square): Player | " " {
+  switch (square.kind) {
+    case "cross":
+      return "X";
+    case "circle":
+      return "O";
+    default:
+      return " ";
+  }
+}
+
+export function getValue(square: Square): Player | undefined {
+  switch (square.kind) {
+    case "cross":
+      return "X";
+    case "circle":
+      return "O";
+    default:
+      return undefined;
+  }
+}
+
+export function hasValue(square: Square): boolean {
+  switch (square.kind) {
+    case "cross":
+    case "circle":
+      return true;
+    default:
+      return false;
+  }
+}
+
+export function equals(...squares: Square[]): boolean {
+  return squares.every(v => getValue(v) === getValue(squares[0]));
 }

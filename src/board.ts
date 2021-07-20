@@ -1,5 +1,5 @@
 import { Player } from "./player";
-import { Square, squareFactory } from "./square";
+import * as sqr from "./square";
 
 type Position = { col: number; row: number };
 
@@ -14,13 +14,13 @@ export class Board {
     [0, 4, 8],
     [3, 4, 6],
   ];
-  private history: ReadonlyArray<ReadonlyArray<Square>>;
+  private history: ReadonlyArray<ReadonlyArray<sqr.Square>>;
 
   constructor() {
-    this.history = [Array(9).fill(squareFactory(undefined))];
+    this.history = [Array(9).fill(sqr.squareFactory(undefined))];
   }
 
-  get currentSquares(): ReadonlyArray<Square> {
+  get currentSquares(): ReadonlyArray<sqr.Square> {
     return this.history[this.history.length - 1];
   }
 
@@ -31,8 +31,7 @@ export class Board {
       let args = [r + 1, " "];
       for (let c = 0; c < 3; c++) {
         const index = r * 3 + c;
-        const col = this.currentSquares[index].render();
-        args.push(col);
+        args.push(sqr.render(this.currentSquares[index]));
         if (c !== 2) args.push("|");
       }
       console.log(...args);
@@ -54,18 +53,18 @@ export class Board {
     );
   }
 
-  makeMove(player: string, position: string): void {
+  makeMove(player: Player, position: string): void {
     if (this.getWinner()) throw new Error("Game is over");
 
     const { col, row } = this.validatePosition(position);
     const pos = row * 3 + col;
     const square = this.currentSquares[pos];
-    if (square.hasValue()) throw new Error("Position already occupied");
+    if (sqr.hasValue(square)) throw new Error("Position already occupied");
 
     this.history = this.history.concat([
       [
         ...this.currentSquares.slice(0, pos),
-        squareFactory(player),
+        sqr.squareFactory(player),
         ...this.currentSquares.slice(pos + 1),
       ],
     ]);
@@ -73,15 +72,16 @@ export class Board {
 
   getWinner(): Player | undefined {
     for (const [idx1, idx2, idx3] of this.winCombinations) {
-      const square1 = this.currentSquares[idx1],
-        square2 = this.currentSquares[idx2],
-        square3 = this.currentSquares[idx3];
+      const square1 = this.currentSquares[idx1];
       if (
-        square1.hasValue() &&
-        square1.isEquals(square2) &&
-        square2.isEquals(square3)
+        sqr.hasValue(square1) &&
+        sqr.equals(
+          square1,
+          this.currentSquares[idx2],
+          this.currentSquares[idx3]
+        )
       )
-        return square1.value;
+        return sqr.getValue(square1);
     }
   }
 }
