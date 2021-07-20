@@ -13,7 +13,7 @@ const winCombinations: [number, number, number][] = [
   [2, 4, 6],
 ];
 
-function render(): void {
+function render(this: Board): void {
   console.log(" ", " ", "A", " ", "B", " ", "C");
   console.log();
   for (let r = 0; r < 3; r++) {
@@ -43,7 +43,7 @@ const validatePosition = (position: string): Position => {
   );
 };
 
-function makeMove(player: string, position: string): void {
+function makeMove(this: Board, player: string, position: string): void {
   if (this.getWinner()) throw new Error("Game is over");
 
   const { col, row } = validatePosition(position);
@@ -53,7 +53,7 @@ function makeMove(player: string, position: string): void {
   this.squares[pos] = squareFactory(player);
 }
 
-function getWinner(): string {
+function getWinner(this: Board): string {
   for (const [idx1, idx2, idx3] of winCombinations) {
     const square1 = this.squares[idx1],
       square2 = this.squares[idx2],

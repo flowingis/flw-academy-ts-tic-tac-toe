@@ -6,7 +6,7 @@ import { board } from "./board";
 const gameBoard = board();
 const gamePrompt = prompt();
 
-async function next(): Promise<void> {
+async function next(this: Game): Promise<void> {
   gameBoard.render();
   const answer = await gamePrompt.question(
     chalk.blue(`Turn of the player ${this.player}. Insert your choice  `)
