@@ -1,5 +1,5 @@
 export interface Square {
-  value?: string;
+  readonly value?: string;
 }
 
 export interface Square {
@@ -9,7 +9,7 @@ export interface Square {
 }
 
 abstract class BaseSquare implements Square {
-  constructor(public value?: string) {}
+  constructor(public readonly value?: string) {}
 
   render() {
     return this.value || " ";

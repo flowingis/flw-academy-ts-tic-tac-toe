@@ -1,9 +1,9 @@
 import chalk from "chalk";
 
 import { prompt } from "./prompt";
-import { board } from "./board";
+import { Board } from "./board";
 
-const gameBoard = board();
+const gameBoard = new Board();
 const gamePrompt = prompt();
 
 async function next(this: Game): Promise<void> {
