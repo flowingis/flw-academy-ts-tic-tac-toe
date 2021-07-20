@@ -2,6 +2,7 @@ import chalk from "chalk";
 
 import { prompt } from "./prompt";
 import { Board } from "./board";
+import { Player } from "./player";
 
 const gameBoard = new Board();
 const gamePrompt = prompt();

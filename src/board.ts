@@ -1,3 +1,4 @@
+import { Player } from "./player";
 import { Square, squareFactory } from "./square";
 
 type Position = { col: number; row: number };

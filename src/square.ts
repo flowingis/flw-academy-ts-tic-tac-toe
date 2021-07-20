@@ -1,3 +1,5 @@
+import { Player } from "./player";
+
 export interface Square {
   readonly value: Player | undefined;
 }
