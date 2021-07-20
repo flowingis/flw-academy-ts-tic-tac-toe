@@ -40,7 +40,7 @@ export class Board {
     console.log();
   }
 
-  validatePosition(position: string): Position {
+  validatePosition(position: string): Position | never {
     const pos = position.trim();
     const [colInput, rowInput] = pos.split("");
     let col = ["A", "B", "C"].indexOf(colInput.toUpperCase()),
@@ -53,7 +53,7 @@ export class Board {
     );
   }
 
-  makeMove(player: Player, position: string): void {
+  makeMove(player: Player, position: string): void | never {
     if (this.getWinner()) throw new Error("Game is over");
 
     const { col, row } = this.validatePosition(position);

@@ -61,8 +61,11 @@ function render(this: Square): Player | " " {
       return "X";
     case "circle":
       return "O";
-    default:
+    case "empty":
       return " ";
+    default:
+      const neverExecuted: never = this;
+      return neverExecuted;
   }
 }
 
@@ -72,8 +75,11 @@ function getValue(this: Square): Player | undefined {
       return "X";
     case "circle":
       return "O";
-    default:
+    case "empty":
       return undefined;
+    default:
+      const neverExecuted: never = this;
+      return neverExecuted;
   }
 }
 
@@ -82,8 +88,11 @@ function hasValue(this: Square): boolean {
     case "cross":
     case "circle":
       return true;
-    default:
+    case "empty":
       return false;
+    default:
+      const neverExecuted: never = this;
+      return neverExecuted;
   }
 }
 
