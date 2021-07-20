@@ -33,8 +33,8 @@ async function next(this: Game): Promise<void> {
 }
 
 type Game = {
-  player: string;
-  winner?: string;
+  player: Player;
+  winner?: Player;
   start: () => Promise<void>;
   next: () => Promise<void>;
 };

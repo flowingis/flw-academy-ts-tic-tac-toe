@@ -1,15 +1,15 @@
 export interface Square {
-  readonly value: string | undefined;
+  readonly value: Player | undefined;
 }
 
 export interface Square {
-  render(): string;
+  render(): Player | " ";
   hasValue(): boolean;
   isEquals(other: unknown): boolean;
 }
 
 abstract class BaseSquare implements Square {
-  constructor(public readonly value: string | undefined) {}
+  constructor(public readonly value: Player | undefined) {}
 
   render() {
     return this.value || " ";

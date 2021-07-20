@@ -70,7 +70,7 @@ export class Board {
     ]);
   }
 
-  getWinner(): string | undefined {
+  getWinner(): Player | undefined {
     for (const [idx1, idx2, idx3] of this.winCombinations) {
       const square1 = this.currentSquares[idx1],
         square2 = this.currentSquares[idx2],
