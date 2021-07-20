@@ -1,4 +1,4 @@
-import { squareFactory } from "./square.js";
+import { squareFactory } from "./square";
 
 const winCombinations = [
   [0, 1, 2],

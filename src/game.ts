@@ -1,7 +1,7 @@
 import chalk from "chalk";
 
-import { prompt } from "./prompt.js";
-import { board } from "./board.js";
+import { prompt } from "./prompt";
+import { board } from "./board";
 
 const gameBoard = board();
 const gamePrompt = prompt();

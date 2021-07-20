@@ -1,5 +1,7 @@
 class Square {
-  constructor(value) {
+  private value: string;
+
+  constructor(value: string) {
     this.value = value;
   }
 
@@ -46,7 +48,7 @@ class EmptySquare extends Square {
   }
 }
 
-export function squareFactory(type) {
+export function squareFactory(type?: string): Square {
   switch (type) {
     case "X":
       return new CrossSquare();
