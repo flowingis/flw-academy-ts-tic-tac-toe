@@ -17,9 +17,15 @@ abstract class BaseSquare implements Square {
 
   abstract hasValue(): boolean;
 
-  isEquals(square) {
+  isEquals(square: unknown): boolean {
     return square instanceof BaseSquare && this.value === square.value;
   }
+
+  // any stop typescript type check
+  // unknown is better then any so you must check the type of your object
+  // isEquals(square: any): boolean {
+  //   return this.value === square.value;
+  // }
 }
 
 class CrossSquare extends BaseSquare {
