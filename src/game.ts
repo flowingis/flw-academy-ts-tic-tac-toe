@@ -6,7 +6,7 @@ import { board } from "./board";
 const gameBoard = board();
 const gamePrompt = prompt();
 
-async function next() {
+async function next(): Promise<void> {
   gameBoard.render();
   const answer = await gamePrompt.question(
     chalk.blue(`Turn of the player ${this.player}. Insert your choice  `)
@@ -29,7 +29,14 @@ async function next() {
   }
 }
 
-const game = () => {
+type Game = {
+  player: string;
+  winner?: string;
+  start: () => void;
+  next: () => void;
+};
+
+const game = (): Game => {
   return {
     player: "X",
     winner: undefined,

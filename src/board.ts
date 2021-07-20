@@ -1,5 +1,7 @@
 import { Square, squareFactory } from "./square";
 
+type Position = { col: number; row: number };
+
 const winCombinations: [number, number, number][] = [
   [0, 1, 2],
   [3, 4, 5],
@@ -11,7 +13,7 @@ const winCombinations: [number, number, number][] = [
   [2, 4, 6],
 ];
 
-function render() {
+function render(): void {
   console.log(" ", " ", "A", " ", "B", " ", "C");
   console.log();
   for (let r = 0; r < 3; r++) {
@@ -28,7 +30,7 @@ function render() {
   console.log();
 }
 
-function validatePosition(position) {
+function validatePosition(position: string): Position {
   const pos = position.trim();
   const [colInput, rowInput] = pos.split("");
   let col = ["A", "B", "C"].indexOf(colInput.toUpperCase()),
@@ -41,7 +43,7 @@ function validatePosition(position) {
   );
 }
 
-function makeMove(player, position) {
+function makeMove(player: string, position: string): void {
   if (this.getWinner()) throw new Error("Game is over");
 
   const { col, row } = validatePosition(position);
@@ -51,7 +53,7 @@ function makeMove(player, position) {
   this.squares[pos] = squareFactory(player);
 }
 
-function getWinner() {
+function getWinner(): string {
   for (const [idx1, idx2, idx3] of winCombinations) {
     const square1 = this.squares[idx1],
       square2 = this.squares[idx2],
@@ -65,10 +67,16 @@ function getWinner() {
   }
 }
 
-export const board = () => {
-  const squares: Square[] = Array(9).fill(squareFactory());
+type Board = {
+  squares: Square[];
+  getWinner(): string | null;
+  makeMove(player: string, position: string): void;
+  render: () => void;
+};
+
+export const board = (): Board => {
   return {
-    squares,
+    squares: Array(9).fill(squareFactory()),
     getWinner,
     makeMove,
     render,
