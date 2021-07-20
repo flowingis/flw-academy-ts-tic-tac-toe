@@ -1,5 +1,5 @@
 export interface Square {
-  readonly value?: string;
+  readonly value: string | undefined;
 }
 
 export interface Square {
@@ -9,7 +9,7 @@ export interface Square {
 }
 
 abstract class BaseSquare implements Square {
-  constructor(public readonly value?: string) {}
+  constructor(public readonly value: string | undefined) {}
 
   render() {
     return this.value || " ";
@@ -50,7 +50,7 @@ class CircleSquare extends BaseSquare {
 
 class EmptySquare extends BaseSquare {
   constructor() {
-    super();
+    super(undefined);
   }
 
   hasValue(): boolean {
@@ -58,7 +58,7 @@ class EmptySquare extends BaseSquare {
   }
 }
 
-export function squareFactory(type?: string): Square {
+export function squareFactory(type: string | undefined): Square {
   switch (type) {
     case "X":
       return new CrossSquare();

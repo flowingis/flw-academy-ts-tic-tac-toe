@@ -16,7 +16,7 @@ export class Board {
   private history: ReadonlyArray<ReadonlyArray<Square>>;
 
   constructor() {
-    this.history = [Array(9).fill(squareFactory())];
+    this.history = [Array(9).fill(squareFactory(undefined))];
   }
 
   get currentSquares(): ReadonlyArray<Square> {
