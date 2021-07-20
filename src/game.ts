@@ -13,6 +13,9 @@ async function next(): Promise<void> {
   );
 
   try {
+    if (typeof answer !== "string")
+      throw new Error("Invalid answer, answer must be a string");
+
     gameBoard.makeMove(this.player, answer);
     this.winner = gameBoard.getWinner();
     this.player = this.player === "X" ? "O" : "X";

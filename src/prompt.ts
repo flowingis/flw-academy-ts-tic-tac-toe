@@ -5,7 +5,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-type Question = (query: string) => Promise<string>;
+type Question = (query: string) => Promise<unknown>;
 const question: Question = query =>
   new Promise(resolve => rl.question(query, resolve));
 
