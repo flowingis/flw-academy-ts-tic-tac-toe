@@ -1,49 +1,53 @@
-export class Square {
-  private value: string;
+export interface Square {
+  value?: string;
+}
 
-  constructor(value: string) {
-    this.value = value;
-  }
+export interface Square {
+  render(): string;
+  hasValue(): boolean;
+  isEquals(other: unknown): boolean;
+}
+
+abstract class BaseSquare implements Square {
+  constructor(public value?: string) {}
 
   render() {
-    return this.value;
+    return this.value || " ";
   }
 
-  hasValue() {
-    throw new Error("Not implemented");
-  }
+  abstract hasValue(): boolean;
 
   isEquals(square) {
-    return square instanceof Square && this.value === square.value;
+    return square instanceof BaseSquare && this.value === square.value;
   }
 }
 
-class CrossSquare extends Square {
+class CrossSquare extends BaseSquare {
   constructor() {
     super("X");
   }
 
-  hasValue() {
+  hasValue(): boolean {
     return true;
   }
 }
 
-class CircleSquare extends Square {
+class CircleSquare extends BaseSquare {
   constructor() {
     super("O");
   }
 
-  hasValue() {
+  hasValue(): boolean {
     return true;
   }
 }
 
-class EmptySquare extends Square {
+class EmptySquare extends BaseSquare {
   constructor() {
-    super(" ");
+    super();
   }
 
-  hasValue() {
+  hasValue(): boolean {
     return false;
   }
 }
