@@ -1,4 +1,3 @@
-import game from "./game";
+import { Game } from "./game";
 
-const gameInstance = game();
-gameInstance.start();
+new Game().next("X");
