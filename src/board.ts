@@ -17,7 +17,7 @@ export class Board {
   private history: ReadonlyArray<ReadonlyArray<Square>>;
 
   constructor() {
-    this.history = [Array(9).fill(squareFactory(undefined))];
+    this.history = Object.freeze([Array(9).fill(squareFactory(undefined))]);
   }
 
   get currentSquares(): ReadonlyArray<Square> {
@@ -61,13 +61,15 @@ export class Board {
     const square = this.currentSquares[pos];
     if (isMarked(square)) throw new Error("Position already occupied");
 
-    this.history = this.history.concat([
-      [
-        ...this.currentSquares.slice(0, pos),
-        squareFactory(player),
-        ...this.currentSquares.slice(pos + 1),
-      ],
-    ]);
+    this.history = Object.freeze(
+      this.history.concat([
+        [
+          ...this.currentSquares.slice(0, pos),
+          squareFactory(player),
+          ...this.currentSquares.slice(pos + 1),
+        ],
+      ])
+    );
   }
 
   getWinner(): Player | undefined {

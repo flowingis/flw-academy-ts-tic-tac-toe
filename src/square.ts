@@ -2,15 +2,15 @@ import { Player } from "./player";
 
 type SquareKind = "cross" | "circle" | "empty";
 
-type BaseSquare<Kind extends SquareKind> = {
+type BaseSquare<Kind extends SquareKind> = Readonly<{
   kind: Kind;
   render: () => Player | " ";
   equals: (...squares: Square[]) => boolean;
-};
+}>;
 
-type CrossSquare = BaseSquare<"cross"> & { value: "X" };
+type CrossSquare = BaseSquare<"cross"> & Readonly<{ value: "X" }>;
 
-type CircleSquare = BaseSquare<"circle"> & { value: "O" };
+type CircleSquare = BaseSquare<"circle"> & Readonly<{ value: "O" }>;
 
 type EmptySquare = BaseSquare<"empty">;
 
@@ -24,20 +24,23 @@ export type UnMarkedSquare = GetUnMarkedSquare<Square>;
 
 const createBaseSquare = <Kind extends SquareKind>(
   kind: Kind
-): BaseSquare<Kind> => ({
-  kind,
-  render,
-  equals,
-});
+): BaseSquare<Kind> =>
+  Object.freeze({
+    kind,
+    render,
+    equals,
+  });
 
-const createCrossSquare = (): CrossSquare => ({
-  ...createBaseSquare("cross"),
-  value: "X",
-});
-const createCircleSquare = (): CircleSquare => ({
-  ...createBaseSquare("circle"),
-  value: "O",
-});
+const createCrossSquare = (): CrossSquare =>
+  Object.freeze({
+    ...createBaseSquare("cross"),
+    value: "X",
+  });
+const createCircleSquare = (): CircleSquare =>
+  Object.freeze({
+    ...createBaseSquare("circle"),
+    value: "O",
+  });
 const createEmptySquare = (): EmptySquare => createBaseSquare("empty");
 
 export function squareFactory(type: Player | undefined): Square {
