@@ -4,6 +4,13 @@ import { prompt } from "./prompt";
 import { Board } from "./board";
 import { Player } from "./player";
 
+function isDefined<T>(
+  obj: T | undefined | null,
+  message?: string
+): asserts obj is T {
+  if (!obj) throw new Error(message || "Field is not defined");
+}
+
 export class Game {
   private player?: Player;
   private winner?: Player;
@@ -18,13 +25,11 @@ export class Game {
       throw new Error("Game already started");
     }
 
-    if (!this.player && !player) {
-      throw new Error("No player selected");
-    }
-
     if (player && !this.player) {
       this.player = player;
     }
+
+    isDefined(this.player, "No player selected");
 
     this.gameBoard.render();
     const answer = await this.gamePrompt.question(
@@ -35,7 +40,7 @@ export class Game {
       if (typeof answer !== "string")
         throw new Error("Invalid answer, answer must be a string");
 
-      this.gameBoard.makeMove(this.player!, answer);
+      this.gameBoard.makeMove(this.player, answer);
       this.winner = this.gameBoard.getWinner();
       this.player = this.player === "X" ? "O" : "X";
       if (this.winner) {
