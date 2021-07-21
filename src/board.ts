@@ -1,5 +1,5 @@
 import { Player } from "./player";
-import { squareFactory, Square } from "./square";
+import { squareFactory, Square, isMarked, isUnMarked } from "./square";
 
 type Position = { col: number; row: number };
 
@@ -59,7 +59,7 @@ export class Board {
     const { col, row } = this.validatePosition(position);
     const pos = row * 3 + col;
     const square = this.currentSquares[pos];
-    if (square.hasValue()) throw new Error("Position already occupied");
+    if (isMarked(square)) throw new Error("Position already occupied");
 
     this.history = this.history.concat([
       [
@@ -74,10 +74,10 @@ export class Board {
     for (const [idx1, idx2, idx3] of this.winCombinations) {
       const square1 = this.currentSquares[idx1];
       if (
-        square1.hasValue() &&
+        isMarked(square1) &&
         square1.equals(this.currentSquares[idx2], this.currentSquares[idx3])
       )
-        return square1.getValue();
+        return square1.value;
     }
   }
 }
